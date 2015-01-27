@@ -9,6 +9,8 @@ public class ChangeMaker {
 			}
 		} catch (ArrayIndexOutOfBoundsException e){
 			System.out.println("Usage: java ChangeMaker <ammount in cents>");
+		}catch (NumberFormatException num) {
+			System.out.println("Supplied value is not an integer");
 		}
 	}
 
