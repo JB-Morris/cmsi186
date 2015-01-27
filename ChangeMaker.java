@@ -1,17 +1,27 @@
 public class ChangeMaker {
 
 	public static void main(String[] args) {
+		int ammount;
 		try{
-
-			int ammount = Integer.parseInt(args[0]);
+			ammount = Integer.parseInt(args[0]);
 			if(ammount < 0){
 				System.out.println("Cannot make change for negative cents.");
+
+			}else{
+				int[] result = getChange(ammount);
+				System.out.println("Quarters: " + result[0]);
+				System.out.println("Dimes: " + result[1]);
+				System.out.println("Nickels: " + result[2]);
+				System.out.println("Pennies: " + result[3]);
 			}
 		} catch (ArrayIndexOutOfBoundsException e){
 			System.out.println("Usage: java ChangeMaker <ammount in cents>");
-		}catch (NumberFormatException num) {
+		} catch (NumberFormatException num) {
 			System.out.println("Supplied value is not an integer");
 		}
+		// int ammount = Integer.parseInt(args[0]);
+		
+
 	}
 
 	public static int getQuarters(int cents){
@@ -26,10 +36,10 @@ public class ChangeMaker {
 		return dimes;
 	}
 
-	public static int getNickles(int cents){
-		int nickles = cents / 5;
+	public static int getNickels(int cents){
+		int nickels = cents / 5;
 		// ammount = cents % 5;
-		return nickles;		
+		return nickels;		
 	}
 
 	public static int getPennies(int cents){
@@ -39,9 +49,13 @@ public class ChangeMaker {
 	public static int[] getChange(int cents){
 		int[] change = new int[4];
 		change[0] = getQuarters(cents);
+		cents = cents % 25;
 		change[1] = getDimes(cents);
-		change[2] = getNickles(cents);
+		cents = cents % 10;
+		change[2] = getNickels(cents);
+		cents = cents % 5;
 		change[3] = getPennies(cents);
+		// System.out.println(change);
 		return change;
 	}
 }
