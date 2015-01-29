@@ -1,6 +1,12 @@
 public class DateCounter{
 	public static boolean isLeapYear(int year) {
-		return false;
+		if(year % 4 == 0){
+			return false;
+		}else if(year % 100 != 0){
+			return true;
+		}else if(year % 400 != 0){
+			return false;
+		}else return true;
 	}
 
 	public static int daysInMonth(int year, int month){
@@ -32,11 +38,10 @@ public class DateCounter{
 			int input = Integer.parseInt(args[i]);
 			dates[i] = input;
 		}
-		 daysBetween(dates[0], dates[1], dates[2], dates[3], dates[4], dates[5]);
-	}
+		// if(dates[]){
 
-	private int daysPerMonth(int month){
-		return 0;
+		// }
+		 daysBetween(dates[0], dates[1], dates[2], dates[3], dates[4], dates[5]);
 
 	}
 }
