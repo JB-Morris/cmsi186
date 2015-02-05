@@ -19,6 +19,7 @@ public class DateCounter{
 		}else if(isValidDate(dates[0], dates[1], dates[2]) == true || isValidDate(dates[3], dates[4], dates[5]) == true){	
 			System.out.println("Leap year? " + isLeapYear(dates[0]));
 			System.out.println("Days in first month: " + daysInMonth(dates[0], dates[1]));
+			daysBetween(dates[0], dates[1], dates[2], dates[3], dates[4], dates[5]);
 			System.out.println("Days between dates: " + daysBetween(dates[0], dates[1], dates[2], dates[3], dates[4], dates[5]));
 		}
 	}
@@ -88,38 +89,77 @@ public class DateCounter{
 	}
 
 	public static int daysBetween(int year0, int month0, int day0, int year1, int month1, int day1){
-		int dateA[] = new int[3];
-		int dateB[] = new int[3];
-		
+		days = 0;
+		int dateAYear;
+		int dateBYear;
+		int dateAMonth;
+		int dateBMonth;
+		int dateADay;
+		int dateBDay;
 		boolean yearChanged = false;
+
 		if(checkFirst(year0, month0, day0, year1, month1, day1) == true){
-			dateA[0] = year0;
-			dateA[1] = month0;
-			dateA[2] = day0;
-			dateB[0] = year1;
-			dateB[1] = month1;
-			dateB[2] = day1;
-		}else if(checkFirst(year0, month0, day0, year1, month1, day1) == false){
-			dateA[0] = year1;
-			dateA[1] = month1;
-			dateA[2] = day1;
-			dateB[0] = year0;
-			dateB[1] = month0;
-			dateB[2] = day0;
-		}if(dateB[0] - dateA[0] > 1){
-			days = 365 * (dateB[0] - dateA[0]);
-			if(dateB[1] - dateA[1] > 1){
-				for(int i = dateA[1]; i != dateB[1]; i++){
-					if(i > 12){
-						i = 1;
-						dateA[0] = dateA[0] + 1;
-						yearChanged = true;
-					}
-					days = days + daysInMonth(dateA[0], i);
-					System.out.println("for loop days in each month");
-				}
-				days = days - dateA[3] + dateB[3];
+			dateAYear = year0;
+			dateAMonth = month0;
+			dateADay = day0;
+			dateBYear = year1;
+			dateBMonth = month1;
+			dateBDay = day1;
+		}else /*if(checkFirst(year0, month0, day0, year1, month1, day1) == false)*/{
+			dateAYear = year1;
+			dateAMonth = month1;
+			dateADay = day1;
+			dateBYear = year0;
+			dateBMonth = month0;
+			dateBDay = day0;
+		}
+
+		if(dateAYear == dateBYear && dateAMonth == dateBMonth && dateADay == dateBDay){
+			return 0;
+		}
+
+		//years
+		if(dateBYear - dateAYear > 1){
+			days = 365 * (dateBYear - dateAYear);
+		}else if(dateBYear - dateAYear >= 1 && dateBMonth == dateAMonth && dateBDay == dateADay){
+			days = 365 * (dateBYear - dateAYear);
+		}
+
+		//days
+		if(dateAMonth != dateBMonth){
+			days = days + (daysInMonth(dateAYear, dateAMonth) - dateADay);
+			days = days + (dateBDay);	
+		}else if(dateAMonth == dateBMonth && dateAYear == dateBYear){
+			days = days + dateBDay - dateADay;
+		}else if(dateAMonth == dateBMonth && dateAYear != dateBYear){
+			days = days + (dateBDay + (daysInMonth(dateAYear, dateAMonth) - dateADay));
+		}
+		
+
+		//leap year days
+		for(int i = dateAYear; i < dateBYear; i++){
+			// only add if febuary is passed
+			if(isLeapYear(i) == true){
+				days = days + 1;
 			}
+		}
+		if(isLeapYear(dateBYear) == true && dateBMonth > 2){
+			days = days + 1;
+		}
+
+
+		//months
+		if(dateBMonth - dateAMonth > 1){
+			for(int i = dateAMonth + 1; i < dateBMonth; i++){				
+				days = days + daysInMonth(dateAYear, i);
+			}
+		}else if(dateBMonth - dateAMonth <= 0){
+			for(int i = dateAMonth + 1;i <= 12; i++){				
+				days = days + daysInMonth(dateAMonth, i);
+			}
+			for(int i = 1; i < dateBMonth; i++){
+				days = days + daysInMonth(dateAYear + 1, i);
+			}		
 		}
 		return days;
 	}
@@ -132,14 +172,7 @@ public class DateCounter{
 	}
 
 	public static boolean hasLeapSecond(int year, int month, int day){
-		if(hasLeapSecond(year) == false){
-			return false;
-		}
-		// else if(month == 6 || month != 12){
-
-		// }
-		// fix later
-		return true;
+		return false;
 	}
 	
 
@@ -157,6 +190,18 @@ public class DateCounter{
 		}else if(day0 > day1){
 			return false;
 		}else return true;
+	}
+
+	private static int yearCounter(year0, year 1){
+		return 0;
+	}
+
+	private static int monthCounter(year0, month0, year1, month1){
+		return 0;
+	}
+
+	private static int dayCounter(year0, month0, day0, year1, month1, day1){
+		return 0;
 	}
 
 	// private static int dayCounter(int year0, int month0, int day0, int year1, int month1, int day1){
