@@ -134,7 +134,26 @@ public class DateCounter{
 	}
 
 	public static boolean hasLeapSecond(int year, int month, int day){
-		return false;
+		boolean leap = false;
+		if((1972 <= year && year <= 1979) || (1981 <= year && year <= 1983) || year == 1985 || year == 1987 || (1989 <= year && year <= 1990) || (1992 <= year && year <= 1995) || (1997 <= year && year <= 1998) || year == 2005 || year == 2008 || year == 2012 || year == 2015){
+			switch(month){
+				case 6: if(year == 1972 || year == 1981 || year == 1982 || year == 1983 || year == 1985 || year == 1992 || year == 1993 || year == 1994 || year == 1997 || year == 2012 || year == 2015){
+							if(day == 30){
+								leap = true;
+							}					
+						}
+						break;
+				case 12: if(year == 1972 || year == 1973 || year == 1974 || year == 1975 || year == 1976 || year == 1977 || year == 1978 || year == 1979 || year == 1987 || year == 1989 || year == 1990 || year == 1995 || year == 1990 || year == 1998 || year == 2005 || year == 2008){
+							if(day == 31){
+								leap = true;
+							}
+						}
+						break;
+			}
+
+		}
+		return leap;
+
 	}
 	
 
