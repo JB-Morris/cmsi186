@@ -118,11 +118,11 @@ public class DateCounter{
 			return 0;
 		}
 		days = yearCounter(dateAYear, dateAMonth, dateADay, dateBYear, dateBMonth, dateBDay);
-		System.out.println("After yearCounter: " + days);
+		// System.out.println("After yearCounter: " + days);
 		days = days + dayCounter(dateAYear, dateAMonth, dateADay, dateBYear, dateBMonth, dateBDay);
-		System.out.println("After dayCounter: " + days); 
+		// System.out.println("After dayCounter: " + days); 
 		days = days + monthCounter(dateAYear, dateAMonth, dateBYear, dateBMonth);
-		System.out.println("After monthCounter: " + days); 
+		// System.out.println("After monthCounter: " + days); 
 		return days;
 	}
 
@@ -158,15 +158,17 @@ public class DateCounter{
 		int d = 0;
 		if((year1 - year0 >= 1 && month1 - month0 > 0) || year1 - year0 > 1){
 			// counting years with respect to possibly overlapping months
-			if(month1 - month0 == 0 && day1 - day0 < 0){
+			if(month1 == month0 && day1 - day0 < 0){
 				d = 0;
 				return d;
+			}else if(month1 < month0){
+				d = 365 * (year1 - year0 - 1);
+				// return d;
 			}else
 			d = 365 * (year1 - year0);
 		}else d = 0;
 		if(d != 0){
 			for(int i = year0; i < year1; i++){
-				// only add if febuary is passed
 				if(isLeapYear(i) == true){
 				d = d + 1;
 				}
@@ -187,7 +189,7 @@ public class DateCounter{
 			}
 		}else if(month1 - month0 < 0 || (month1 == month0 && year0 != year1)){
 			for(int i = month0 + 1; i <= 12; i++){				
-				d = d + daysInMonth(month0, i);
+				d = d + daysInMonth(year0, i);
 			}
 			for(int i = 1; i < month1; i++){
 				d = d + daysInMonth(year0 + 1, i);
