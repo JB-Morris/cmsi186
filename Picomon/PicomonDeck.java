@@ -41,18 +41,45 @@ public class PicomonDeck {
 
     public void shuffle() {
         // Implement me!
-        Random rand = new Random();
-        for(int i = getSize() - 1; i > 0; i--){
-            int index = rand.nextInt(i + 1);
-            PicomonCard temp = cards[index];
-            cards[index] = cards [i];
-            cards[i] = temp;
+//        Original Random
+//        Random rand = new Random();
+//        for(int i = this.getSize() - 1; i >= 0; i--){
+//            int index = rand.nextInt(i + 1);
+//            PicomonCard temp = cards[index];
+//            cards[index] = cards [i];
+//            cards[i] = temp;
+//        }
+//        Riffle Shuffle
+        PicomonCard[] shuffled = new PicomonCard[this.getSize()];
+        int counter = 0;
+        for(int i = 0; i < this.getSize(); i++){
+            if(i % 2 == 0){
+                shuffled[counter] = cards[i];
+                counter++;
+            }
+        }
+        for(int i = 0; i < this.getSize(); i++){
+            if(i % 2 != 0){
+                shuffled[counter] = cards[i];
+                counter++;
+            }
+        }
+        for(int i = 0; i < this.getSize(); i++){
+            cards[i] = shuffled[i];
         }
 
     }
 
     public boolean orderedEquals(PicomonDeck other) {
         // Implement me!
+        if(this.getSize() != other.getSize()){
+            return false;
+        }
+        for(int i = 0; i < this.getSize(); i++){
+            if(!this.cardAt(i).equals(other.cardAt(i))){
+                return false;
+            }
+        }
         return true;
     }
 

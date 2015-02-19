@@ -45,7 +45,6 @@ public class PicomonCard {
         PicomonElement opponentElement = opponent.getElement();
         cardPower = applyMultiplier(cardElement, cardPower, opponentElement);
         opponentPower = applyMultiplier(opponentElement, opponentPower, cardElement);
-
         if(cardPower > opponentPower){
             return true;
         }else if(cardPower < opponentPower){
@@ -138,11 +137,9 @@ public class PicomonCard {
 
     private int applyMultiplier(PicomonElement element, int power, PicomonElement opponentElement){
         if(element == PicomonElement.FIRE && opponentElement == PicomonElement.AIR){
-            power = power * 3;
-            return power;
+            return power * 3;
         }else if(element == PicomonElement.AIR && (opponentElement == PicomonElement.WATER || opponentElement == PicomonElement.EARTH)){
-            power = power * 2;
-            return power;
+            return power * 2;
         }else if(element == PicomonElement.WATER && (opponentElement == PicomonElement.FIRE || opponentElement == PicomonElement.EARTH)){
             power = power * 2;
             return power;

@@ -68,22 +68,48 @@ public class PicomonGame {
 
     public boolean isMatchOver() {
         // Implement me!
-        return true;
+        return(trainerDeck.getSize() == trainerPosition || gymLeaderDeck.getSize() == gymLeaderPosition);
     }
     
     public Player getLeader() {
         // Implement me!
-        return Player.TRAINER;
+        if(trainerPosition < gymLeaderPosition){
+            return Player.TRAINER;
+        }else if(trainerPosition > gymLeaderPosition){
+            return Player.GYM_LEADER;
+        }else return null;
     }
     
     public Round playRound() {
         // Implement me!
-        return null;
+        Round game = new Round(gymLeaderDeck.cardAt(gymLeaderPosition), trainerDeck.cardAt(trainerPosition));
+        if(trainerDeck.cardAt(trainerPosition).beats(gymLeaderDeck.cardAt(gymLeaderPosition)) == true && gymLeaderDeck.cardAt(gymLeaderPosition).beats(trainerDeck.cardAt(trainerPosition)) == false){
+            game.winner = Player.TRAINER;
+            gymLeaderPosition++;
+        }else if(trainerDeck.cardAt(trainerPosition).beats(gymLeaderDeck.cardAt(gymLeaderPosition)) == false && gymLeaderDeck.cardAt(gymLeaderPosition).beats(trainerDeck.cardAt(trainerPosition)) == true){
+            game.winner = Player.GYM_LEADER;
+            trainerPosition++;
+        }else{
+            game.winner = null;
+            trainerPosition++;
+            gymLeaderPosition++;
+        }
+        return game;
     }
 
     public Round[] playMatch() {
         // Implement me!
-        return new Round[0];
+        int matchLength;
+        int counter = 0;
+        if(trainerDeck.getSize() > (gymLeaderDeck.getSize())){
+            matchLength = trainerDeck.getSize() * 2;
+        }else matchLength = gymLeaderDeck.getSize() * 2;
+        Round[] rounds = new Round[matchLength];
+        while(!isMatchOver()){
+            rounds[counter] = playRound();
+            counter++;
+        }
+        return rounds;
     }
 
     public static void main(String[] args) {
