@@ -118,7 +118,6 @@ public class PicomonGame {
         PicomonCard[] gameCards;
         PicomonDeck player1Deck;
         PicomonDeck player2Deck;
-//        Round[] battle = game.playMatch();
         if(args.length == 0) {
             game = new PicomonGame();
             gameCards = new PicomonCard[game.getTrainerDeck().getSize()];
@@ -154,9 +153,20 @@ public class PicomonGame {
             player2Deck.shuffle();
             game = new PicomonGame(player1Deck, player2Deck);
         }
-        System.out.println("Trainer Deck: " + game.getTrainerDeck());
-        System.out.println("Trainer Deck: " + game.getGymLeaderDeck());
-        System.out.println("Game: " + game.playMatch());
+        System.out.println("Trainer's Deck: " + game.getTrainerDeck());
+        System.out.println("Gym Leader's Deck: " + game.getGymLeaderDeck());
+        Round[] match = game.playMatch();
+        System.out.println(match);
+//        for(int i = 0; i < game.playMatch().length; i++){
+//            if(match[i].winner.equals(Player.TRAINER)){
+//                System.out.println(game.trainerPosition);
+//                System.out.println("Player's " + game.getTrainerDeck().cardAt(game.trainerPosition) + " beats Gym Leader's" + game.getGymLeaderDeck().cardAt(game.gymLeaderPosition));
+//            }else if(match[i].winner.equals(Player.GYM_LEADER)){
+//                System.out.println("Gym Leader's " + game.getGymLeaderDeck().cardAt(game.gymLeaderPosition) + " beats Trainer's" + game.getTrainerDeck().cardAt(game.trainerPosition));
+//            }else{
+//                System.out.println("It's a tie between Trainer's " + game.getTrainerDeck().cardAt(game.trainerPosition) + " and Gym Leader's" + game.getGymLeaderDeck().cardAt(game.gymLeaderPosition));
+//            }
+//        }
     }
 
 }
