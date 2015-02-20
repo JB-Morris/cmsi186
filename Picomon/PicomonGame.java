@@ -114,6 +114,49 @@ public class PicomonGame {
 
     public static void main(String[] args) {
         // Implement me!
+        PicomonGame game;
+        PicomonCard[] gameCards;
+        PicomonDeck player1Deck;
+        PicomonDeck player2Deck;
+//        Round[] battle = game.playMatch();
+        if(args.length == 0) {
+            game = new PicomonGame();
+            gameCards = new PicomonCard[game.getTrainerDeck().getSize()];
+        }else if(args.length % 2 != 0) {
+            System.out.println("Cannot create a deck based on the supplied arguments.");
+            return;
+        }else {
+            gameCards = new PicomonCard[args.length / 2];
+            int counter = 0;
+            for(int i = 0; i < args.length; i = i + 2){
+                int cardPower;
+                PicomonElement cardElement;
+                if(args[i].equals("water")){
+                    cardElement = PicomonElement.WATER;
+                }else if(args[i].equals("fire")){
+                    cardElement = PicomonElement.FIRE;
+                }else if(args[i].equals("earth")){
+                    cardElement = PicomonElement.EARTH;
+                }else if(args[i].equals("air")){
+                    cardElement = PicomonElement.AIR;
+                }else{
+                    System.out.println("Invalid element specified");
+                    return;
+                }
+                cardPower = Integer.parseInt(args[i + 1]);
+                gameCards[counter] = new PicomonCard(cardElement, cardPower);
+                counter++;
+            }
+            player1Deck = new PicomonDeck(gameCards);
+            player1Deck.shuffle();
+            player2Deck = new PicomonDeck(gameCards);
+            player2Deck.shuffle();
+            player2Deck.shuffle();
+            game = new PicomonGame(player1Deck, player2Deck);
+        }
+        System.out.println("Trainer Deck: " + game.getTrainerDeck());
+        System.out.println("Trainer Deck: " + game.getGymLeaderDeck());
+        System.out.println("Game: " + game.playMatch());
     }
 
 }
