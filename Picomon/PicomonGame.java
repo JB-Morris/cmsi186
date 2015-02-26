@@ -147,18 +147,21 @@ public class PicomonGame {
                 counter++;
             }
             player1Deck = new PicomonDeck(gameCards);
-            player1Deck.shuffle();
             player2Deck = new PicomonDeck(gameCards);
-            player2Deck.shuffle();
-            player2Deck.shuffle();
             game = new PicomonGame(player1Deck, player2Deck);
+//            game.gymLeaderDeck.shuffle();
+
+
         }
         System.out.println("Trainer's Deck: " + game.getTrainerDeck());
         System.out.println("Gym Leader's Deck: " + game.getGymLeaderDeck());
         Round[] match = game.playMatch();
-//        System.out.println(match);
         for(int i = 0; i < game.playMatch().length; i++){
-            System.out.println(match[i]);
+//            if(match[i].equals(null)){
+//                System.out.println("");
+//            }else {
+                System.out.println(match[i]);
+//            }
         }
         System.out.println("And the winner is: " + game.getLeader());
     }
