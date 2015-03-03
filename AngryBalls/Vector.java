@@ -31,6 +31,8 @@ public class Vector {
 
     public Vector scale(double magnitude) {
         // Implement me!
+        this.x *= magnitude;
+        this.y *= magnitude;
         return this;
 
     }

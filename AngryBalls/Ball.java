@@ -1,25 +1,45 @@
+import java.util.Vector;
+
 public class Ball {
 
     // Declare my instance variables!
+    private double radius;
+    private Vector location;
+    private Vector velocity;
+    private final Vector gravity;
     
     public Ball(double radius, Vector location, Vector initialVelocity) {
         // Implement me!
+        this.radius = radius;
+        this.location = new Vector(location.x(), location.y());
+        this.velocity = new Vector(initialVelocity.x(), initialVelocity.y());
+        this.gravity = new Vector(0, -9.8);
     }
 
     public Vector getLocation() {
         // Implement me!
+        return this.location;
     }
 
     public double getRadius() {
         // Implement me!
+        return this.radius;
     }
     
     public void accelerate(Vector acceleration, double grain) {
         // Implement me!
+        this.velocity.add(acceleration.scale(grain));
+        this.velocity.add(gravity.scale(grain));
+//                changes the ball's velocity after each second
+//
     }
 
     public void move(double grain) {
         // Implement me!
+        this.location.add(velocity.scale(grain));
+//        moves ball for given velocity over inputed time
+//        multiply values by seconds
+
     }
 
 }

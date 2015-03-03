@@ -23,20 +23,23 @@ public class AngryBallsTestHarness {
     }
 
     private static void testVectorXY() {
+        System.out.println("testing Vector X and Y...");
         double testX = 5;
         double testY = 5;
         Vector vector = new Vector(testX, testY);
-        
+
 
     }
 
     private static void testVectorAdd() {
+        System.out.println("testing vector add method...");
         double testX = 5;
         double testY = 5;
         Vector vector = new Vector(testX, testY);
     }
 
     private static void testBallRadius(){
+        System.out.println("testing ball radius...");
         double radius = 5;
         Vector location = new Vector(0,0);
         Vector initialVelocity = new Vector(5,5);
@@ -44,6 +47,7 @@ public class AngryBallsTestHarness {
     }
 
     private static void testBallLocation() {
+        System.out.println("testing ball location...");
         double radius = 5;
         Vector location = new Vector(0,0);
         Vector initialVelocity = new Vector(5,5);
