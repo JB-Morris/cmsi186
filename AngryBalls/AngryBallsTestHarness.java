@@ -8,9 +8,11 @@ public class AngryBallsTestHarness {
         successes = 0;
 
         testVectorXY();
-
+        testVectorAdd();
         testBallRadius();
         testBallLocation();
+        testBallAcceleration();
+        testBallMove();
 
         System.out.println(successes + "/" + attempts + " tests passed");
     }
@@ -32,6 +34,23 @@ public class AngryBallsTestHarness {
         } catch (Exception e) {
             displaySuccessIfTrue(false);
         }
+        testX = 3.8;
+        testY = 5.8;
+        Vector vector2 = new Vector(testX, testY);
+        try {
+            displaySuccessIfTrue(vector2.x() == testX && vector2.y() == testY);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+        testX = 3000.238;
+        testY = 5293.123;
+        Vector vector3 = new Vector(testX, testY);
+        try {
+            displaySuccessIfTrue(vector3.x() == testX && vector3.y() == testY);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
     }
 
     private static void testVectorAdd() {
@@ -42,7 +61,37 @@ public class AngryBallsTestHarness {
         Vector vectorAddTest = new Vector(5,5);
         vector.add(vectorAddTest);
         try {
-            displaySuccessIfTrue(vector.x() == 10 && vector.y() == 10);
+            displaySuccessIfTrue(vector.x() == (testX + vectorAddTest.x()) && vector.y() == (testY + vectorAddTest.y()));
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+        testX = 7.25;
+        testY = 20.8;
+        Vector vector2 = new Vector(testX, testY);
+        Vector vectorAddTest2 = new Vector(50.94, 85.32);
+        vector2.add(vectorAddTest2);
+        try {
+            displaySuccessIfTrue(vector2.x() == (testX + vectorAddTest2.x()) && vector2.y() == (testY + vectorAddTest2.y()));
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+        testX = 1000;
+        testY = 1000;
+        Vector vector3 = new Vector(testX, testY);
+        Vector vectorAddTest3 = new Vector(-500, -500);
+        vector3.add(vectorAddTest3);
+        try {
+            displaySuccessIfTrue(vector3.x() == (testX + vectorAddTest3.x()) && vector3.y() == (testY + vectorAddTest3.y()));
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+        testX = 500.3;
+        testY = 500.5;
+        Vector vector4 = new Vector(testX, testY);
+        Vector vectorAddTest4 = new Vector(-50.94, -85.32);
+        vector4.add(vectorAddTest4);
+        try {
+            displaySuccessIfTrue(vector4.x() == (testX + vectorAddTest4.x()) && vector4.y() == (testY + vectorAddTest4.y()));
         } catch (Exception e) {
             displaySuccessIfTrue(false);
         }
@@ -59,17 +108,40 @@ public class AngryBallsTestHarness {
         } catch (Exception e) {
             displaySuccessIfTrue(false);
         }
+        radius = 5.123;
+        Ball ball2 = new Ball(radius, location, initialVelocity);
+        try {
+            displaySuccessIfTrue(ball2.getRadius() == radius);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+        radius = 1234.567;
+        Ball ball3 = new Ball(radius, location, initialVelocity);
+        try {
+            displaySuccessIfTrue(ball3.getRadius() == radius);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
     }
 
     private static void testBallLocation() {
         System.out.println("testing ball location...");
         double radius = 5;
         Vector location = new Vector(0,0);
-        Vector initialVelocity = new Vector(5,5);
+        Vector initialVelocity = new Vector(0,0);
         Ball ball = new Ball(radius, location, initialVelocity);
         Vector locationTest = new Vector(0,0);
         try {
-            displaySuccessIfTrue(ball.getLocation().equals(locationTest));
+            displaySuccessIfTrue(ball.getLocation().x() == locationTest.x() && ball.getLocation().y() == locationTest.y());
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+        Vector location2 = new Vector(123.456, 789.10112);
+        Ball ball2 = new Ball(radius, location2, initialVelocity);
+        Vector locationTest2 = new Vector(123.456, 789.10112);
+        try {
+            displaySuccessIfTrue(ball2.getLocation().x() == locationTest2.x() && ball2.getLocation().y() == locationTest2.y());
         } catch (Exception e) {
             displaySuccessIfTrue(false);
         }
@@ -95,9 +167,4 @@ public class AngryBallsTestHarness {
         ball.move(1);
 //        expected ball.location.x() = 5 ...y() = 5
     }
-
-
-
-
-
 }
