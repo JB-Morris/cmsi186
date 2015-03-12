@@ -33,5 +33,4 @@ public class Ball {
         // Implement me!
         this.location.add(velocity.scale(grain));
     }
-
 }
