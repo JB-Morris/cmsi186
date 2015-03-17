@@ -36,5 +36,8 @@ public class Vector {
         return this;
 
     }
+    public void zeroY(){
+        this.y = 0;
+    }
 
 }
