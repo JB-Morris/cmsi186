@@ -38,12 +38,14 @@ public class AngryBallsSimulation {
             return;
         }
         game.play();
+        System.out.println("end");
         if(game.collision){
             System.out.println("The Balls collided at timestamp " + game.collisionTimeStamp + " with the red ball at (" + game.redCollision.x() + ", " + game.redCollision.y() + ") and the blue ball at (" + game.blueCollision.x() + ", " + game.blueCollision.y() + ").");
         }else System.out.println("The balls did not collide.");
     }
     private void printTimeSlice(Ball r, Ball b, double grain){
-        System.out.println("Red radius: " + r.getRadius() + " Red x: " + r.getLocation().x() + " Red y: " + r.getLocation().y() + " Blue radius: " + b.getRadius() + " Blue x: " + b.getLocation().x() + " Blue y: " + b.getLocation().y());
+//        System.out.println("Red radius: " + r.getRadius() + " Red x: " + r.getLocation().x() + " Red y: " + r.getLocation().y() + " Blue radius: " + b.getRadius() + " Blue x: " + b.getLocation().x() + " Blue y: " + b.getLocation().y());
+        System.out.println(r.getRadius() + " " + r.getLocation().x() + " " + r.getLocation().y() + " " + b.getRadius() + " " + b.getLocation().x() + " " + b.getLocation().y());
     }
 
     private boolean checkCollision(){
