@@ -17,6 +17,9 @@ public class Ball {
         // Implement me!
         return this.location;
     }
+    public Vector getVelocity() {
+        return this.velocity;
+    }
 
     public double getRadius() {
         // Implement me!
@@ -33,4 +36,5 @@ public class Ball {
         // Implement me!
         this.location.add(velocity.scale(grain));
     }
+
 }

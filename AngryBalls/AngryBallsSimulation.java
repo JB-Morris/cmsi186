@@ -1,3 +1,5 @@
+import java.lang.IllegalArgumentException;
+
 public class AngryBallsSimulation {
 
     private double timeStamp = 0;
@@ -11,11 +13,17 @@ public class AngryBallsSimulation {
     public static final Vector GRAVITY = new Vector(0, -9.8);
 
     public AngryBallsSimulation(double redRadius, Vector redInitialLocation, Vector redInitialVelocity, double blueRadius, Vector blueInitialLocation, Vector blueInitialVelocity){
+        if(redRadius <= 0 || blueRadius <= 0){
+            throw new IllegalArgumentException("Radius must be greater than zero");
+        }
         redBall = new Ball(redRadius, redInitialLocation, redInitialVelocity);
         blueBall = new Ball(blueRadius, blueInitialLocation, blueInitialVelocity);
         this.grain = 1;
     }
     public AngryBallsSimulation(double redRadius, Vector redInitialLocation, Vector redInitialVelocity, double blueRadius, Vector blueInitialLocation, Vector blueInitialVelocity, double grain){
+        if(redRadius <= 0 || blueRadius <= 0){
+            throw new IllegalArgumentException("Radius must be greater than zero");
+        }
         redBall = new Ball(redRadius, redInitialLocation, redInitialVelocity);
         blueBall = new Ball(blueRadius, blueInitialLocation, blueInitialVelocity);
         this.grain = grain;
@@ -48,7 +56,7 @@ public class AngryBallsSimulation {
         System.out.println(r.getRadius() + " " + r.getLocation().x() + " " + r.getLocation().y() + " " + b.getRadius() + " " + b.getLocation().x() + " " + b.getLocation().y());
     }
 
-    private boolean checkCollision(){
+    protected boolean checkCollision(){
         double distance = Math.pow((redBall.getLocation().x() - blueBall.getLocation().x()) * (redBall.getLocation().x() - blueBall.getLocation().x()) + (redBall.getLocation().y() - blueBall.getLocation().y()) * (redBall.getLocation().y() - blueBall.getLocation().y()), 0.5);
         if((redBall.getRadius() >= blueBall.getRadius() && distance <= redBall.getRadius() - blueBall.getRadius()) || (blueBall.getRadius() >= redBall.getRadius() && distance <= blueBall.getRadius() - redBall.getRadius()) || (redBall.getLocation().x() == blueBall.getLocation().x() && redBall.getLocation().y() == blueBall.getLocation().y())){
             redCollision = new Vector(redBall.getLocation().x(), redBall.getLocation().y());
@@ -67,7 +75,7 @@ public class AngryBallsSimulation {
         }
     }
 
-    private void move(){
+    protected void move(){
         if(!ballOnGround(redBall)){
             redBall.move(grain);
             redBall.accelerate(GRAVITY, grain);
@@ -79,7 +87,7 @@ public class AngryBallsSimulation {
         timeStamp++;
     }
 
-    private boolean ballOnGround(Ball b){
+    public boolean ballOnGround(Ball b){
         if(timeStamp > 0){
             if(b.getLocation().y() <= 0){
                 b.getLocation().zeroY();

@@ -1,3 +1,5 @@
+import java.lang.IllegalArgumentException;
+
 public class AngryBallsTestHarness {
 
     private static int attempts = 0;
@@ -13,6 +15,7 @@ public class AngryBallsTestHarness {
         testBallLocation();
         testBallAcceleration();
         testBallMove();
+        testSimulator();
 
         System.out.println(successes + "/" + attempts + " tests passed");
     }
@@ -145,27 +148,300 @@ public class AngryBallsTestHarness {
         } catch (Exception e) {
             displaySuccessIfTrue(false);
         }
+
+
     }
 
     private static void testBallAcceleration() {
         System.out.println("testing ball acceleration...");
-        double radius = 5;
-        Vector location = new Vector(0,0);
-        Vector initialVelocity = new Vector(5,5);
-        Ball ball = new Ball(radius, location, initialVelocity);
-        Vector acceleration = new Vector(0,0);
-        ball.accelerate(acceleration, 1);
-//      expected 4.8
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(0, 0);
+            Vector initialVelocity = new Vector(5, 5);
+            Vector acceleration = new Vector(0, 0);
+            Ball ball = new Ball(radius, location, initialVelocity);
+
+            ball.accelerate(acceleration, 1);
+
+            displaySuccessIfTrue(ball.getVelocity().x() == 5);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(0, 0);
+            Vector initialVelocity = new Vector(5, 5);
+            Vector acceleration = new Vector(0, 0);
+            Ball ball = new Ball(radius, location, initialVelocity);
+
+            ball.accelerate(acceleration, 1);
+
+            displaySuccessIfTrue(ball.getVelocity().y() == 5);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(0, 0);
+            Vector initialVelocity = new Vector(0, 0);
+            Vector acceleration = new Vector(5, 5);
+            Ball ball = new Ball(radius, location, initialVelocity);
+
+            ball.accelerate(acceleration, 1);
+
+            displaySuccessIfTrue(ball.getVelocity().x() == 5);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(0, 0);
+            Vector initialVelocity = new Vector(0, 0);
+            Vector acceleration = new Vector(5, 5);
+            Ball ball = new Ball(radius, location, initialVelocity);
+
+            ball.accelerate(acceleration, 1);
+
+            displaySuccessIfTrue(ball.getVelocity().y() == 5);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(0, 0);
+            Vector initialVelocity = new Vector(0, 0);
+            Vector acceleration = new Vector(5, 5);
+            Ball ball = new Ball(radius, location, initialVelocity);
+
+            ball.accelerate(acceleration, 2);
+
+            displaySuccessIfTrue(ball.getVelocity().x() == 10);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(0, 0);
+            Vector initialVelocity = new Vector(0, 0);
+            Vector acceleration = new Vector(5, 5);
+            Ball ball = new Ball(radius, location, initialVelocity);
+
+            ball.accelerate(acceleration, 2);
+
+            displaySuccessIfTrue(ball.getVelocity().x() == 10);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(0, 0);
+            Vector initialVelocity = new Vector(0, 0);
+            Vector acceleration = new Vector(5.25, 3.87);
+            Ball ball = new Ball(radius, location, initialVelocity);
+
+            ball.accelerate(acceleration, 1);
+
+            displaySuccessIfTrue(ball.getVelocity().x() == 5.25 && ball.getVelocity().y() == 3.87);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
     }
 
     private static void testBallMove() {
         System.out.println("testing ball movement... ");
-        double radius = 5;
-        Vector location = new Vector(0,0);
-        Vector initialVelocity = new Vector(5,5);
-        Ball ball = new Ball(radius, location, initialVelocity);
-        ball.move(1);
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(0,0);
+            Vector initialVelocity = new Vector(5,5);
+            Ball ball = new Ball(radius, location, initialVelocity);
+            ball.move(1);
+
+            displaySuccessIfTrue(ball.getLocation().x() == 5 && ball.getLocation().y() == 5);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(0,0);
+            Vector initialVelocity = new Vector(5.5, 5.5);
+            Ball ball = new Ball(radius, location, initialVelocity);
+            ball.move(1);
+
+            displaySuccessIfTrue(ball.getLocation().x() == 5.5 && ball.getLocation().y() == 5.5);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(50, 28);
+            Vector initialVelocity = new Vector(17, 35);
+            Ball ball = new Ball(radius, location, initialVelocity);
+            ball.move(1);
+
+            displaySuccessIfTrue(ball.getLocation().x() == 67 && ball.getLocation().y() == 63);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(74.55, 28.18);
+            Vector initialVelocity = new Vector(17.45, 35.17);
+            Ball ball = new Ball(radius, location, initialVelocity);
+            ball.move(1);
+
+            displaySuccessIfTrue(ball.getLocation().x() == 92 && ball.getLocation().y() == 63.35);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            double radius = 5;
+            Vector location = new Vector(5000, 375);
+            Vector initialVelocity = new Vector(500, 800);
+            Ball ball = new Ball(radius, location, initialVelocity);
+            ball.move(1);
+
+            displaySuccessIfTrue(ball.getLocation().x() == 5500 && ball.getLocation().y() == 1175);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
 //        expected ball.location.x() = 5 ...y() = 5
     }
-    private static void test
+    private static void testSimulator() {
+        System.out.println("Testing simulation constructors...");
+        Vector zero = new Vector(0, 0);
+        Vector test1 = new Vector(5, 5);
+        Vector subZero = new Vector(-5, -5);
+        try {
+            AngryBallsSimulation testSim = new AngryBallsSimulation(0, zero, zero, 0, test1, zero);
+        } catch(IllegalArgumentException e){
+            displaySuccessIfTrue(true);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            AngryBallsSimulation testSim = new AngryBallsSimulation(-5, zero, zero, 30, test1, zero);
+        } catch(IllegalArgumentException e){
+            displaySuccessIfTrue(true);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            AngryBallsSimulation testSim = new AngryBallsSimulation(5, zero, zero, 30, test1, zero, .3);
+            displaySuccessIfTrue(testSim.getGrain() == .3);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            AngryBallsSimulation testSim = new AngryBallsSimulation(5, zero, zero, 30, test1, zero, 5.8);
+            displaySuccessIfTrue(testSim.getGrain() == 5.8);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        System.out.println("Testing ground detection... ");
+
+        try {
+            AngryBallsSimulation testSim = new AngryBallsSimulation(5, zero, zero, 30, test1, zero, .3);
+            testSim.setTimeStamp(1);
+            displaySuccessIfTrue(testSim.ballOnGround(testSim.getRed()));
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            AngryBallsSimulation testSim = new AngryBallsSimulation(5, zero, zero, 30, test1, zero, .3);
+            testSim.setTimeStamp(1);
+            displaySuccessIfTrue(!testSim.ballOnGround(testSim.getBlue()));
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            AngryBallsSimulation testSim1 = new AngryBallsSimulation(5, subZero, zero, 30, test1, zero, .3);
+            testSim1.setTimeStamp(1);
+            displaySuccessIfTrue(testSim1.ballOnGround(testSim1.getRed()));
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        System.out.println("Testing simulation movement...");
+
+        try {
+            AngryBallsSimulation testSim1 = new AngryBallsSimulation(5, zero, test1, 5, test1, zero);
+            testSim1.move();
+
+            displaySuccessIfTrue(testSim1.getRed().getLocation().x() == 5 && testSim1.getRed().getLocation().y() == 5);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            Vector test = new Vector(5, 5.4);
+            AngryBallsSimulation testSim1 = new AngryBallsSimulation(5, zero, test, 5, test1, zero);
+            testSim1.move();
+            testSim1.move();
+
+            displaySuccessIfTrue(testSim1.getRed().getLocation().x() == 10 && testSim1.getRed().getLocation().y() == 1);
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        System.out.println("Testing simulation collision detection... ");
+
+        try {
+            Vector testV = new Vector(5, 5);
+            Vector testV2 = new Vector(-5, 5);
+            Vector testL = new Vector(0, 5);
+            Vector testL2 = new Vector(20, 5);
+            AngryBallsSimulation testSim1 = new AngryBallsSimulation(5, testL, testV, 5, testL2, testV2);
+            testSim1.move();
+
+            displaySuccessIfTrue(testSim1.checkCollision());
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            Vector testV = new Vector(5, 5);
+            Vector testV2 = new Vector(5, 5);
+            Vector testL = new Vector(0, 5);
+            Vector testL2 = new Vector(20, 5);
+            AngryBallsSimulation testSim1 = new AngryBallsSimulation(5, testL, testV, 5, testL2, testV2);
+            testSim1.move();
+
+            displaySuccessIfTrue(!testSim1.checkCollision());
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+        try {
+            Vector testV = new Vector(0, 0);
+            Vector testL = new Vector(50, 50);
+            AngryBallsSimulation testSim1 = new AngryBallsSimulation(5, testL, testV, 5, testL, testV);
+            testSim1.move();
+
+            displaySuccessIfTrue(testSim1.checkCollision());
+        } catch (Exception e) {
+            displaySuccessIfTrue(false);
+        }
+
+    }
 }
