@@ -1,6 +1,7 @@
 public class Intpossible {
 
     private boolean[] digits;
+    private boolean negative = false;
 
     public Intpossible() {
         digits = new boolean[1];
@@ -13,16 +14,40 @@ public class Intpossible {
     }
 
     private boolean[] binaryConverter(String s){
-
-        for(int i = s.length(); i >= 0; i--){
-            s.substring(i, i);
+        String value = s;
+        String newValue = value;
+        if(s.charAt(0 == "-")){
+            negative = true;
+            for(int i = value.length() - 1; i > 0; i--){
+                String charPair = value.substring(i, i + 1);
+                divideBy2(charPair.charAt(1), charPair.charAt(0));
+            }
+        }else{
+            for(int i = value.length() - 1; i >= 0; i--){
+                String charPair = value.substring(i, i + 1);
+                divideBy2(charPair.charAt(1), charPair.charAt(0));
+            }
         }
+
 
         return digits;
     }
 
     public boolean equals(Object n){
         return false;
+    }
+
+    private char divideBy2(char c1, char c2){
+        int currentDigit = Character.getNumericValue(c1);
+        int nextDigit = Character.getNumericValue(c2);
+        int ans;
+        if(c2 % 2 == 0){
+            ans = c1 / 2;
+        }else{
+            ans = c1 / 2 + 5;
+        }
+        char answer = (char)ans;
+        return answer;
     }
 
     public boolean isGreaterThan(Intpossible n) {
@@ -62,44 +87,43 @@ public class Intpossible {
 //        this.digits = grownArray;
 //    }
 
-    private class BooleanQueue {
+    private class BooleanStack {
 
-        private boolean[] queueArr;
+        private boolean[] stackArr;
         private int current = 0;
-        private int itterateCount = 0;
 
-        protected BooleanQueue(){
-            queueArr = new boolean[10];
+        protected BooleanStack(){
+            stackArr = new boolean[10];
         }
 
-        protected BooleanQueue(int size){
-            queueArr = new boolean[size];
+        protected BooleanStack(int size){
+            stackArr = new boolean[size];
         }
 
         protected void add(boolean value){
-            if(current == queueArr.length){
+            if(current == stackArr.length){
                 grow();
             }
             current++;
-            queueArr[current] = value;
+            stackArr[current] = value;
         }
 
-        protected boolean remove(){
-            boolean value = queueArr[itterateCount];
-            itterateCount++;
+        protected boolean pop(){
+            boolean value = stackArr[current];
+            current--;
             return value;
         }
 
         protected boolean peek(){
-            return queueArr[itterateCount];
+            return stackArr[current];
         }
 
         protected void grow(){
-            boolean[] grownQueue = new boolean[this.queueArr.length * 2];
-            for(int i = 0; i <= this.queueArr.length; i++) {
-                grownQueue[i] = this.queueArr[i];
+            boolean[] grownStack = new boolean[this.stackArr.length * 2];
+            for(int i = 0; i <= this.stackArr.length; i++) {
+                grownStack[i] = this.stackArr[i];
             }
-            this.queueArr = grownQueue;
+            this.stackArr = grownStack;
         }
 
 
