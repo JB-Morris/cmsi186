@@ -1,11 +1,13 @@
+import java.lang.System;
+
 public class Intpossible {
 
-    private boolean[] digits;
+    private BooleanStack digits = new BooleanStack();
     private boolean negative = false;
 
     public Intpossible() {
-        digits = new boolean[1];
-        digits[0] = false;
+        digits = new BooleanStack();
+        digits.add(false);
     }
 
     public Intpossible(String s) {
@@ -13,23 +15,52 @@ public class Intpossible {
 
     }
 
-    private boolean[] binaryConverter(String s){
+    public static void main(String[] args){
+        if(args.length == 0){
+            Intpossible bigInt = new Intpossible();
+        }else {
+            System.out.println(args[0]);
+            Intpossible bigInt = new Intpossible(args[0]);
+            System.out.println(bigInt.digits);
+            System.out.println(bigInt);
+        }
+    }
+
+    private BooleanStack binaryConverter(String s){
         String value = s;
-        String newValue = value;
-        if(s.charAt(0 == "-")){
+        StringBuilder newValue = new StringBuilder(value.length());
+        if(s.charAt(0) == '-'){
             negative = true;
-            for(int i = value.length() - 1; i > 0; i--){
-                String charPair = value.substring(i, i + 1);
-                divideBy2(charPair.charAt(1), charPair.charAt(0));
+            for(int i = value.length() - 1; i > 1; i--){
+                String charPair = value.substring(i - 1, i + 1);
+                newValue.insert(0, divideBy2(charPair.charAt(1), charPair.charAt(0)));
             }
         }else{
-            for(int i = value.length() - 1; i >= 0; i--){
-                String charPair = value.substring(i, i + 1);
-                divideBy2(charPair.charAt(1), charPair.charAt(0));
+            for(int i = value.length() - 1; i > 0; i--){
+                String charPair = value.substring(i - 1, i + 1);
+                System.out.println("charPair: " + charPair);
+                newValue.insert(0, divideBy2(charPair.charAt(1), charPair.charAt(0)));
+                if(i == 1){
+                    char firstDigit = divideBy2(charPair.charAt(0), '0');
+                    if(!(firstDigit == 0)) {
+                        newValue.insert(0, divideBy2(charPair.charAt(0), '0'));
+                    }
+                }
             }
         }
 
-
+        System.out.println(newValue);
+        if(!(newValue.length() == 0)) {
+            if ((Character.getNumericValue(newValue.charAt(newValue.length() - 1))) % 2 == 0) {
+                digits.add(false);
+            } else {
+                digits.add(true);
+            }
+        }
+        if(!(newValue.toString() == "0")){
+            binaryConverter(newValue.toString());
+        }
+        System.out.println(digits);
         return digits;
     }
 
@@ -40,13 +71,17 @@ public class Intpossible {
     private char divideBy2(char c1, char c2){
         int currentDigit = Character.getNumericValue(c1);
         int nextDigit = Character.getNumericValue(c2);
+//        System.out.println(currentDigit);
+//        System.out.println(nextDigit);
         int ans;
-        if(c2 % 2 == 0){
-            ans = c1 / 2;
+        if(nextDigit % 2 == 0){
+            ans = currentDigit / 2;
         }else{
-            ans = c1 / 2 + 5;
+            ans = currentDigit / 2 + 5;
         }
-        char answer = (char)ans;
+//        System.out.println(ans);
+        char answer = Character.forDigit(ans, 10);
+//        System.out.println("dividebyt2: " + answer);
         return answer;
     }
 
