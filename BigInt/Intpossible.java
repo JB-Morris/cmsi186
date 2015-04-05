@@ -1,3 +1,6 @@
+import java.lang.Override;
+import java.lang.String;
+import java.lang.StringBuilder;
 import java.lang.System;
 
 public class Intpossible {
@@ -11,6 +14,7 @@ public class Intpossible {
     }
 
     public Intpossible(String s) {
+        //add check for letters method
         binaryConverter(s);
 
     }
@@ -21,7 +25,7 @@ public class Intpossible {
         }else {
             System.out.println(args[0]);
             Intpossible bigInt = new Intpossible(args[0]);
-            System.out.println(bigInt.digits);
+            System.out.println("digits: " + bigInt.digits.toString());
             System.out.println(bigInt);
         }
     }
@@ -29,38 +33,52 @@ public class Intpossible {
     private BooleanStack binaryConverter(String s){
         String value = s;
         StringBuilder newValue = new StringBuilder(value.length());
+//        if(Character.getNumericValue(value.charAt(value.length() - 1)) % 2 == 0){
+//            digits.add(false);
+//        }else {
+//            digits.add(true);
+//        }
         if(s.charAt(0) == '-'){
             negative = true;
             for(int i = value.length() - 1; i > 1; i--){
                 String charPair = value.substring(i - 1, i + 1);
                 newValue.insert(0, divideBy2(charPair.charAt(1), charPair.charAt(0)));
             }
-        }else{
+        }else if(value.length() > 1){
             for(int i = value.length() - 1; i > 0; i--){
                 String charPair = value.substring(i - 1, i + 1);
-                System.out.println("charPair: " + charPair);
+//                System.out.println("charPair: " + charPair);
                 newValue.insert(0, divideBy2(charPair.charAt(1), charPair.charAt(0)));
                 if(i == 1){
                     char firstDigit = divideBy2(charPair.charAt(0), '0');
-                    if(!(firstDigit == 0)) {
+                    if(!(firstDigit == '0')) {
                         newValue.insert(0, divideBy2(charPair.charAt(0), '0'));
                     }
                 }
             }
+        }else if(value.length() == 1){
+//            System.out.println("made it here!");
+            char firstDigit = divideBy2(s.charAt(0), '0');
+            if(!(firstDigit == '0')) {
+                newValue.insert(0, divideBy2(s.charAt(0), '0'));
+            }else newValue.insert(0, '0');
         }
+        System.out.println("Value: " + value);
+        System.out.println("newValue: " + newValue);
 
-        System.out.println(newValue);
-        if(!(newValue.length() == 0)) {
-            if ((Character.getNumericValue(newValue.charAt(newValue.length() - 1))) % 2 == 0) {
+        if(!(value.charAt(0) == '0')) {
+            if ((Character.getNumericValue(value.charAt(value.length() - 1))) % 2 == 0) {
                 digits.add(false);
             } else {
                 digits.add(true);
             }
         }
-        if(!(newValue.toString() == "0")){
+        if(!(newValue.charAt(0) == '0')){
             binaryConverter(newValue.toString());
+        }else {
+
         }
-        System.out.println(digits);
+//        System.out.println(digits.stackArr.toString());
         return digits;
     }
 
@@ -136,7 +154,7 @@ public class Intpossible {
         }
 
         protected void add(boolean value){
-            if(current == stackArr.length){
+            if(current == stackArr.length - 1){
                 grow();
             }
             current++;
@@ -155,13 +173,37 @@ public class Intpossible {
 
         protected void grow(){
             boolean[] grownStack = new boolean[this.stackArr.length * 2];
-            for(int i = 0; i <= this.stackArr.length; i++) {
+            for(int i = 0; i <= this.stackArr.length - 1; i++) {
                 grownStack[i] = this.stackArr[i];
             }
             this.stackArr = grownStack;
         }
 
+        protected boolean isEmpty(){
+            if(current == 0){
+                return true;
+            }else return false;
+        }
 
+        public int getSize(){
+            return this.current;
+        }
+
+
+        @Override
+        public String toString() {
+            int currentPointer = this.current;
+            StringBuilder binaryRepresentation = new StringBuilder(currentPointer + 1);
+            while(!this.isEmpty()){
+                if(this.pop()){
+                    binaryRepresentation.append('1');
+                }else{
+                    binaryRepresentation.append('0');
+                }
+            }
+            current = currentPointer;
+            return binaryRepresentation.toString();
+        }
     }
 
 }
