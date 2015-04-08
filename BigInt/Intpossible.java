@@ -43,8 +43,10 @@ public class Intpossible {
             System.out.println("digits: " + bigInt.digits.toString());
             System.out.println(bigInt);
             Intpossible addend = new Intpossible("8");
-            System.out.println("subtract: " + bigInt.minus(addend));
-            System.out.println("subtract: " + bigInt.minus(addend));
+            System.out.println("add: " + bigInt.plus(addend));
+            Intpossible subtrahend = new Intpossible("8");
+            System.out.println("subtract: " + bigInt.minus(subtrahend));
+//            System.out.println("subtract: " + bigInt.minus(addend));
             Intpossible eCheck = new Intpossible("8");
             if(addend.equals(eCheck)){
                 System.out.println("SUCCESS BITCHES!!");
@@ -56,6 +58,9 @@ public class Intpossible {
             if(eCheck.isLessThan(gCheck)){
                 System.out.println("LESS THAN WORKS!");
             }
+            Intpossible mCheck1 = new Intpossible("11");
+            Intpossible mCheck2 = new Intpossible("3");
+            System.out.println("multiply: " + mCheck1.times(mCheck2));
 
             System.out.println("digits: " + bigInt.digits.toString());
         }
@@ -262,11 +267,12 @@ public class Intpossible {
         this.digits = result;
         if(carry){
             Intpossible one = new Intpossible("1");
-            this.plus(one);
+            subtrahend1.plus(one);
         }
         subtrahend.digits.reset();
         this.digits.reset();
         return this;
+        //        fix this to return a temporary value
     }
 
     public Intpossible mod(Intpossible divisor) {
@@ -322,17 +328,24 @@ public class Intpossible {
         addend.digits.reset();
         this.digits.reset();
         return this;
+//        fix this to return a temporary value
     }
 
     public Intpossible times(Intpossible factor) {
-        boolean carry = false;
-        while(!(factor.getDigits().isEmpty())){
-            if(factor.getDigits().pop() && true){
-                carry = (this.digits.pop());
-
+        Intpossible factorCpy = new Intpossible(factor.toString());
+        Intpossible thisCpy = new Intpossible(this.toString());
+        Intpossible result = new Intpossible("0");
+//        BooleanDeque result = new BooleanDeque();
+        int current = 0;
+        while(!(factorCpy.getDigits().isEmpty())){
+            System.out.println("factor peek: " + factorCpy.getDigits().peek());
+            if(factorCpy.getDigits().peek()){
+                result.plus(thisCpy);
             }
+            factorCpy.getDigits().shiftRight();
+            thisCpy.digits.shiftLeft();
         }
-        return this;
+        return result;
     }
 
     public String toString() {
