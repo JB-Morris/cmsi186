@@ -1,5 +1,6 @@
 import java.lang.*;
 import java.lang.Boolean;
+import java.lang.IllegalArgumentException;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.StringBuilder;
@@ -17,6 +18,15 @@ public class Intpossible {
 
     public Intpossible(String s) {
         //add check for letters method
+        for(int i = 0; i < s.length(); i++){
+//            System.out.println("character at " + i + ": " + s.charAt(i));
+//            System.out.println(!(Character.isDigit(s.charAt(i))));
+//            System.out.println((s.charAt(i) != '+'));
+//            System.out.println((s.charAt(i) != '-'));
+            if((!(Character.isDigit(s.charAt(i)))) && (s.charAt(i) != '+') && (s.charAt(i) != '-') && (s.charAt(i) != ' ')){
+                throw new IllegalArgumentException("Intpossible is displased with your input choice.");
+            }
+        }
         binaryConverter(s);
 
     }
@@ -37,23 +47,48 @@ public class Intpossible {
             Intpossible bigInt = new Intpossible(args[0]);
             System.out.println("digits: " + bigInt.digits.toString());
             System.out.println(bigInt);
-            Intpossible addend = new Intpossible("7");
+            Intpossible addend = new Intpossible("8");
 //            System.out.println("add: " + bigInt.plus(addend));
             System.out.println("subtract: " + bigInt.minus(addend));
+            Intpossible eCheck = new Intpossible("8");
+            if(addend.equals(eCheck)){
+                System.out.println("SUCCESS BITCHES!!");
+            }
 
             System.out.println("digits: " + bigInt.digits.toString());
         }
     }
 
     private BooleanDeque binaryConverter(String s){
+        String screened = s.trim();
+        int index = 0;
+//        while(!(Character.isDigit(preScreened.charAt(index))) || preScreened.charAt(index) != '+' || preScreened.charAt(index) != '-' && index < preScreened.length() - 1){
+//            index++;
+//        }
         String value;
-        if((s.charAt(0) == '+' || s.charAt(0) == '-')){
-            if(s.charAt(0) == '-'){
+        if((screened.charAt(index) == '+' || screened.charAt(index) == '-')){
+            if(screened.charAt(index) == '-'){
                 negative = true;
             }
-            value = s.substring(1);
+            int i = 0;
+            while(screened.charAt(index + i) == '0'){
+                i++;
+            }
+            value = screened.substring(index + 1 + i);
         }else{
-            value = s;
+            int i = 0;
+//            System.out.println("index: " + index + " i: " + i);
+            while(screened.charAt(index + i) == '0' && screened.length() > 1){
+                i++;
+            }
+            value = screened.substring(index + i);
+        }
+//        System.out.println("value: " + value);
+        String zero = "0";
+        if(value.equals(zero)){
+            this.digits.add(false);
+//            System.out.println("please tell me you can see me...");
+            return digits;
         }
 
         StringBuilder newValue = new StringBuilder(value.length());
@@ -67,7 +102,7 @@ public class Intpossible {
             negative = true;
             for(int i = value.length() - 1; i > 1; i--){
                 String charPair = value.substring(i - 1, i + 1);
-                newValue.insert(0, divideBy2(charPair.charAt(1), charPair.charAt(0)));
+                newValue.insert(0, divideBy2(charPair.charSAt(1), charPair.charAt(0)));
             }
         }else if(s.charAt(0) == '+'){
             for(int i = value.length() - 1; i > 1; i--){
@@ -87,10 +122,10 @@ public class Intpossible {
                 }
             }
         }else if(value.length() == 1){
-//            System.out.println("made it here!");
-            char firstDigit = divideBy2(s.charAt(0), '0');
+//            System.out.println("value.length == 1");
+            char firstDigit = divideBy2(value.charAt(0), '0');
             if(!(firstDigit == '0')) {
-                newValue.insert(0, divideBy2(s.charAt(0), '0'));
+                newValue.insert(0, divideBy2(value.charAt(0), '0'));
             }else newValue.insert(0, '0');
         }
 //        System.out.println("Value: " + value);
@@ -103,16 +138,13 @@ public class Intpossible {
                 digits.add(true);
             }
         }
+//        System.out.println("newValue: " + newValue);
 
         if(!(newValue.charAt(0) == '0')){
             binaryConverter(newValue.toString());
         }
 //        System.out.println(digits.dequeArr.toString());
         return digits;
-    }
-
-    public boolean equals(Object n){
-        return false;
     }
 
     private char divideBy2(char c1, char c2){
@@ -130,6 +162,28 @@ public class Intpossible {
         char answer = Character.forDigit(ans, 10);
 //        System.out.println("dividebyt2: " + answer);
         return answer;
+    }
+
+    public boolean equals(Object n){
+        if(this == n){
+            return true;
+        }
+        if(n == null){
+            return false;
+        }
+        if(getClass() != n.getClass()){
+            return false;
+        }
+
+        Intpossible other = (Intpossible)n;
+        if(!(this.toString().equals(other.toString()))){
+            return false;
+        }
+
+        if(this.isNegative() != other.isNegative()){
+            return false;
+        }
+        return true;
     }
 
     public boolean isGreaterThan(Intpossible n) {
@@ -151,26 +205,37 @@ public class Intpossible {
     }
 
     public boolean isLessThan(Intpossible n) {
-       return !(isGreaterThan(n));
+       return !(this.isGreaterThan(n));
     }
 
     public Intpossible minus(Intpossible subtrahend){
-        System.out.println("minus process starting... ");
-        System.out.println("bigInt: " + this.getDigits() + " subtrahend: " + subtrahend.getDigits());
+//        System.out.println("minus process starting... ");
+//        System.out.println("bigInt: " + this.getDigits() + " subtrahend: " + subtrahend.getDigits());
+        if(subtrahend.isGreaterThan(this)){
+            this.negative = true;
+        }
         BooleanDeque result = new BooleanDeque();
         Intpossible subtrahend1 = new Intpossible(subtrahend.toString());
+//        System.out.println("subtrahend1: " + subtrahend1.toString());
+//        System.out.println("subtrahend digits: " + subtrahend.digits.toString());
+//        System.out.println("subtrahend1: " + subtrahend1.digits.toString());
         boolean carry = false;
         int loop;
         if(this.digits.getSize() > subtrahend1.getDigits().getSize()){
-            while(this.digits.getSize() >= subtrahend1.getDigits().getSize()){
-                subtrahend1.getDigits().addBottom(false);
+            for(int i = 0; i < this.digits.getSize() - subtrahend1.getDigits().getSize(); i++){
+//                System.out.println("padding");
+                subtrahend1.getDigits().add(false);
+//                System.out.println("subtrahend: " + subtrahend1.digits.toString());
             }
+//            while(this.digits.getSize() >= subtrahend1.getDigits().getSize()){
+//
+//            }
         }else if(this.digits.getSize() < subtrahend.getDigits().getSize()){
             //pad minuend and make this negative
         }
         loop = this.getDigits().getSize();
         for(int i = 0; i < loop; i++) {
-            System.out.println("current result: " + result.toString());
+//            System.out.println("current result: " + result.toString());
             if (subtrahend1.getDigits().isEmpty()) {
                 subtrahend1.getDigits().add(false);
             }
@@ -179,20 +244,20 @@ public class Intpossible {
             }
             boolean x = subtrahend1.getDigits().popBottom();
             boolean y = this.getDigits().popBottom();
-            System.out.println("x: " + !x + " y: " + y + " carry: " + carry);
+//            System.out.println("x: " + !x + " y: " + y + " carry: " + carry);
             if (!x && y && carry) {
 //            1 + 1 + 1 = 11
-                System.out.println("1 + 1 + 1");
+//                System.out.println("1 + 1 + 1");
                 carry = true;
                 result.add(true);
             } else if ((!x && y && !carry) || ((x ^ !y) && carry)) {
 //            1 + 1 + 0 || 1 + 0 + 1 = 10
-                System.out.println("1 + 1 + 0");
+//                System.out.println("1 + 1 + 0");
                 carry = true;
                 result.add(false);
-            } else if (((!x ^ y) && !carry) || ((!(x || !y)) && carry)) {
+            } else if (((!x ^ y) && !carry) || ((!(!x || y)) && carry)) {
 //            1 + 0 + 0 || 0 + 0 + 1 = 01
-                System.out.println("1 + 0 + 0");
+//                System.out.println("1 + 0 + 0");
                 carry = false;
                 result.add(true);
             } else {
@@ -201,14 +266,15 @@ public class Intpossible {
                 result.add(false);
             }
         }
+//        this.digits.setDequeArr(result);
+        this.digits = result;
         if(carry){
-            System.out.println("got here");
+//            System.out.println("got here");
             Intpossible one = new Intpossible("1");
             this.plus(one);
         }
 
-        this.digits = result;
-        this.digits.reset();
+
         return this;
     }
 
@@ -217,8 +283,9 @@ public class Intpossible {
     }
 
     public Intpossible plus(Intpossible addend) {
-        System.out.println("plus process starting...");
-        System.out.println("bigInt: " + this.getDigits() + " addend: " + addend.getDigits());
+//        System.out.println("plus process starting...");
+//        System.out.println("bigInt: " + this.getDigits() + " addend: " + addend.getDigits());
+        
         BooleanDeque result = new BooleanDeque();
 //        Intpossible addend1 = new Intpossible(addend.toString());
         Intpossible addend1 = addend;
@@ -231,7 +298,7 @@ public class Intpossible {
             loop = this.getDigits().getSize();
         }
         for(int i = 0; i < loop; i++) {
-            System.out.println("current result: " + result.toString());
+//            System.out.println("current result: " + result.toString());
             if (addend1.getDigits().isEmpty()) {
                 addend1.getDigits().add(false);
             }
@@ -240,20 +307,20 @@ public class Intpossible {
             }
             boolean x = addend1.getDigits().popBottom();
             boolean y = this.getDigits().popBottom();
-            System.out.println("x: " + x + " y: " + y + " carry: " + carry);
+//            System.out.println("x: " + x + " y: " + y + " carry: " + carry);
             if (x && y && carry) {
 //            1 + 1 + 1 = 11
-                System.out.println("1 + 1 + 1");
+//                System.out.println("1 + 1 + 1");
                 carry = true;
                 result.add(true);
             } else if ((x && y && !carry) || ((x ^ y) && carry)) {
 //            1 + 1 + 0 || 1 + 0 + 1 = 10
-                System.out.println("1 + 1 + 0");
+//                System.out.println("1 + 1 + 0");
                 carry = true;
                 result.add(false);
             } else if (((x ^ y) && !carry) || ((!(x || y)) && carry)) {
 //            1 + 0 + 0 || 0 + 0 + 1 = 01
-                System.out.println("1 + 0 + 0");
+//                System.out.println("1 + 0 + 0");
                 carry = false;
                 result.add(true);
             } else {
@@ -263,7 +330,7 @@ public class Intpossible {
             }
         }
         if(carry){
-            System.out.println("got here");
+//            System.out.println("got here");
             result.add(true);
         }
 
@@ -307,6 +374,11 @@ public class Intpossible {
 
     private String binaryReader(BooleanDeque b){
 //        System.out.println("binary reader process started...");
+        boolean isZero = false;
+        String zero = "0";
+        if(b.toString().equals(zero)){
+            isZero = true;
+        }
         boolean current = false;
         StringBuilder value = new StringBuilder(b.getSize()/2);
         value.append('0');
@@ -322,10 +394,12 @@ public class Intpossible {
         if(b.pop()){
             value = addOne(value);
         }
-        if(negative){
-            value.insert(0, '-');
-        }else{
-            value.insert(0, '+');
+        if(!(isZero)) {
+            if (negative) {
+                value.insert(0, '-');
+            } else {
+                value.insert(0, '+');
+            }
         }
         b.reset();
         return value.toString();
@@ -509,6 +583,17 @@ public class Intpossible {
 
         public boolean[] getStackArr(){
             return this.dequeArr;
+        }
+
+        public boolean getStackArr(int index){
+            return this.dequeArr[index];
+        }
+
+        public void setDequeArr(BooleanDeque b){
+            this.clear();
+            for(int i = 0; i <= b.getSize() - 1; i++){
+                this.add(b.popBottom());
+            }
         }
 
         @Override
