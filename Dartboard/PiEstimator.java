@@ -1,5 +1,3 @@
-
-
 public class PiEstimator{
 
     private int darts;
@@ -55,9 +53,6 @@ public class PiEstimator{
     }
 
     private double calculatePercentage(){
-//        System.out.println("calculate percentage: hits: " + this.getHits());
-//        System.out.println("calculate percentage: total darts: " + this.getTotalDarts());
-//        System.out.println("calculate percentage: percentage: " + this.getHits() / this.getTotalDarts());
         double hitsDouble = this.getHits();
         double totalDartsDouble = this.getTotalDarts();
         double percentage = hitsDouble / totalDartsDouble;
@@ -65,16 +60,13 @@ public class PiEstimator{
     }
 
     private double estimatePi(){
-//        System.out.println(this.calculatePercentage());
         double result;
         if(this.hasRun){
             result = SQUARE_SIDE * SQUARE_SIDE * (calculatePercentage());
-//            System.out.println("result: " + result);
             return result;
         }else{
             this.run();
             result = SQUARE_SIDE * SQUARE_SIDE * (calculatePercentage());
-//            System.out.println("result: " + result);
             return result;
         }
 
@@ -86,8 +78,6 @@ public class PiEstimator{
         }
         return false;
     }
-
-
 
     public static void main(String[] args){
         PiEstimator estimate;
@@ -102,5 +92,4 @@ public class PiEstimator{
         System.out.println("end");
         System.out.println("Darts: " + estimate.getTotalDarts() + " Hits: " + estimate.getHits() + " Pi estimate: " + estimate.estimatePi());
     }
-
 }
