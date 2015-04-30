@@ -107,6 +107,53 @@ public class MakeOptimalChange {
         return result;
     }
 
+    public static Tally makeOptimalChangeRecursive(int[] denominations, int amount){
+        Tally[][] tallyTable = new Tally[denominations.length][amount + 1];
+        int[] data = new int[denominations.length];
+        for(int i = 0; i < denominations.length; i++){
+            data[i] = 0;
+        }
+        for(int i = 0; i < denominations.length; i++){
+            tallyTable[i][0] = new Tally(data);
+        }
+        return getTallyForCell(denominations.length - 1, amount, tallyTable, denominations);
+    }
+
+    private Tally getTallyForCell(int denominationIndex, int amountIndex, Tally[][] table, int[] denominations){
+        if(table[denominationIndex][amountIndex] != null){
+            return table[denominationIndex][amountIndex];
+        }else{
+            if(amountIndex >= denominations[denominationIndex]){
+                table[denominationIndex][amountIndex] = new Tally(denominations.length);
+                tallyTable[dIndex][aIndex].setElement(dIndex, 1);
+//                table[denominationIndex][amountIndex].add(table[denominationIndex][amountIndex - denominations[denominationIndex]]);
+
+                int differenceIndex = amountIndex - denominations[denominationIndex];
+                if(!(table[denominationIndex][differenceIndex].isImpossible())){
+                    Tally sum = table[denominationIndex][amountIndex].add(getTallyForCell(denominationIndex - 1, differenceIndex, table, denominations));
+                    table[denominationIndex][amountIndex] = sum;
+                }else{
+                    table[denominationIndex][amountIndex] = Tally.IMPOSSIBLE;
+                }
+                if((denominationIndex > 0) && (table[denominationIndex][amountIndex].isImpossible())){
+                    table[denominationIndex][amountIndex] = getTallyForCell(denominationIndex - 1, amountIndex, table, denominations);
+                }else if((denominationIndex > 0) && !(table[denominationIndex - 1][amountIndex].isImpossible()) && (table[denominationIndex - 1][amountIndex].total() < table[denominationIndex][amountIndex].total())){
+                    table[denominationIndex][amountIndex] = getTallyForCell(denominationIndex - 1, amountIndex, table, denominations);
+                }
+                result = table[denominationIndex][amountIndex];
+            }else if(denominationIndex > 0){
+//                table[denominationIndex][amountIndex] = table[denominationIndex - 1][amountIndex];
+                table[denominationIndex][amountIndex] = getTallyForCell(denominationIndex - 1, amountIndex, table, denominations);
+                result = table[denominationIndex][amountIndex];
+            }else{
+                table[denominationIndex][amountIndex] = Tally.IMPOSSIBLE;
+                result = table[denominationIndex][amountIndex];
+            }
+            return result;
+        }
+
+    }
+
     private static void printUsage() {
         System.out.println("Usage: java MakeOptimalChange <denominations> <amount>");
         System.out.println("  - <denominations> is a comma-separated list of denominations (no spaces)");
